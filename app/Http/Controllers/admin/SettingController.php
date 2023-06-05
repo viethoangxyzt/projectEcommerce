@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
-use App\Services\HomeService;
+use Intervention\Image\Facades\Image;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index() 
+    public function index()
     {
         return view('admin.setting.index', [
             'title' => 'Cấu Hình Website',
@@ -27,8 +28,10 @@ class SettingController extends Controller
         try {
             $data = $request->all();
             if ($request->logo) {
-                $imageName = time().'.'.request()->logo->getClientOriginalExtension();
-                request()->logo->move(public_path('asset/client/images/'), $imageName);
+                $imageName = time() . '.' . request()->logo->getClientOriginalExtension();
+                $logo = Image::make($request->logo);
+                $logo->fit(124, 63); // Resize the image to the desired dimensions
+                $logo->save(public_path('asset/client/images/') . $imageName);
                 $data['logo'] = $imageName;
             }
             $setting = Setting::first();
