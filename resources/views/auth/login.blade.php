@@ -38,15 +38,16 @@
                                   Đăng Nhập
                                 </button>
                             </div>
-                            <div class="content-footer">
+                            <div class="content-footer text-right">
                                 <a href="{{ route('user.forgot_password_create') }}">
-                                  Quên mật khẩu
+                                  Quên mật khẩu |
                                 </a>
                                 <a href="{{ route('user.register') }}">
                                   Đăng kí tài khoản
                                 </a>
                             </div>
                           </form>
+                          <a href="{{ route('login.google') }}" class="btn btn-danger btn-block mt-3">Login with Google</a>
                         </div>
                       </div>
                     </div>

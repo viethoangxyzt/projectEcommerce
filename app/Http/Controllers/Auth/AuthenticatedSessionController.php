@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserLoginRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         return redirect()->route('user.home');
     }
-    
+
     /**
      * Destroy an authenticated session.
      *
@@ -45,6 +48,25 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        return redirect()->route('user.home');
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        $googleUser = Socialite::driver('google')->user();
+        $user = User::where('email', $googleUser->email)->first();
+
+        if (!$user) {
+            return redirect()->route('user.register');
+           
+        }
+        Auth::login($user);
 
         return redirect()->route('user.home');
     }
