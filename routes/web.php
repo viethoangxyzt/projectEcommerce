@@ -47,6 +47,7 @@ Route::middleware(['maintenance'])->group(function () {
 
         Route::group(['prefix' => 'profile'], function () {
             Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+            Route::get('/change-password', [ProfileController::class, 'formChangePassword'])->name('profile.form_change_password');
             Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
             Route::post('/change-profile', [ProfileController::class, 'changeProfile'])->name('profile.change_profile');
         });

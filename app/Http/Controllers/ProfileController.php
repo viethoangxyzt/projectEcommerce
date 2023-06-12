@@ -32,6 +32,10 @@ class ProfileController extends Controller
         return view('client.profile', $this->profileUserService->index());
     }
 
+    public function formChangePassword(){
+        return view('client.change-password');
+    }
+
     public function changeProfile(UpdateProfileRequest $request)
     {
         return $this->profileUserService->changeProfile($request);
