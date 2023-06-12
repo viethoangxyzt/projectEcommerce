@@ -15,6 +15,9 @@
               <a href="{{ route('user.home') }}" class="btn-a">Mua Ngay</a>
             </div>
           @else
+          <div class="text-right" style="margin-bottom: 20px;">
+              <a href="{{ route('user.home') }}" class="btn-a">Tiếp tục mua sắm</a>
+            </div>
             <table class="table table-bordered table-cart">
               <thead>
                 <tr>
