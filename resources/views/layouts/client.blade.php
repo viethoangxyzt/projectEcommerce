@@ -42,7 +42,7 @@
                <div class="col-md-2 col-sm-2">
                   <div class="logo">
                      <a href="{{ route('user.home') }}">
-                        <img src="{{ asset("asset/client/images/" . setting_website()->logo) }}" alt="FlatShop">
+                        <img src="{{ asset("asset/client/images/" . setting_website()->logo) }}" alt="VH Clothings">
                      </a>
                   </div>
                </div>

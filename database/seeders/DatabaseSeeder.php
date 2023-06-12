@@ -234,68 +234,40 @@ class DatabaseSeeder extends Seeder
                     [
                         'id' => 1,
                         'logo' => 'logo.png',
-                        'name' => 'FlatShop',
-                        'email' => 'FlatShop@gmail.com',
-                        'address' => '459 Tôn Đức Thắng, quận Liên Chiểu, thành phố Đà Nẵng',
+                        'name' => 'VHCLOTHINGS',
+                        'email' => 'vhclothings@gmail.com',
+                        'address' => '1024 Vạn Phúc, quận Hà Đông, thành phố Hà Nội',
                         'phone_number' => '123125934093',
                         'maintenance' => 2,
                         'notification' => '<b>WEBSITE tạm thời bảo trì để nâng cấp xin  quay lại sau</b>',
                         'introduction' => '
                             <h3 style="text-align: center; ">
-                            <b>GIỚI THIỆU VỀ FLATSHOP</b>
+                            <b>GIỚI THIỆU VỀ VHCLOTHINGS</b>
                             </h3><h5><br></h5><h5><span style="font-family: " source="" sans="" pro";"="" times="" new="" roman"; "="">
-                            Chào mừng đến với website bán thời trang của chúng tôi! 
-                            Chúng tôi tự hào là một trong những cửa hàng trực tuyến hàng đầu về thời trang, 
-                            cung cấp cho khách hàng những sản phẩm thời trang chất lượng cao và đa dạng.
+                            Tại VH Clothings, chúng tôi tự hào là cửa hàng trực tuyến hàng đầu về thời trang, nơi bạn có thể tìm thấy những sản phẩm thời trang đa dạng và phong phú, giúp bạn tự tin thể hiện phong cách cá nhân độc đáo của mình.
                             </span><br></h5><h5><br></h5><h5>
-                            Đối với chúng tôi, thời trang là một niềm đam mê và một nghệ thuật. 
-                            Chúng tôi không chỉ cung cấp cho khách hàng những sản phẩm thời trang đẹp và chất lượng, 
-                            mà còn mang đến cho họ những trải nghiệm mua sắm tuyệt vời. Chúng tôi luôn nỗ lực để đáp ứng nhu cầu của khách hàng,
-                            từ việc cung cấp những sản phẩm mới nhất đến việc cải tiến dịch vụ khách hàng.
+                            Với sự đam mê và tâm huyết với thời trang, chúng tôi không chỉ cung cấp những sản phẩm thời trang đẹp và chất lượng, mà còn mang đến cho bạn những trải nghiệm mua sắm tuyệt vời. Đội ngũ nhân viên chuyên nghiệp và thân thiện của chúng tôi luôn sẵn sàng hỗ trợ bạn trong quá trình mua sắm, từ việc tìm kiếm sản phẩm, đặt hàng cho đến khi bạn nhận được sản phẩm mong đợi.
                             <br></h5><h5><br></h5><h5>
-                            Chúng tôi cam kết chỉ bán những sản phẩm thời trang được làm từ chất liệu tốt nhất, 
-                            đảm bảo độ bền cao và giá trị sử dụng lâu dài. Chúng tôi luôn đảm bảo rằng mỗi sản phẩm đều được kiểm tra kỹ lưỡng trước khi đưa vào bán hàng, 
-                            để đảm bảo rằng chúng đáp ứng các tiêu chuẩn chất lượng mà chúng tôi đặt ra.
+                            Chúng tôi cam kết chỉ cung cấp những sản phẩm thời trang được làm từ chất liệu tốt nhất, đảm bảo độ bền cao và giá trị sử dụng lâu dài. Mỗi sản phẩm đều được kiểm tra kỹ lưỡng trước khi đưa vào bán hàng, đảm bảo rằng chúng đáp ứng các tiêu chuẩn chất lượng cao mà chúng tôi đặt ra.
                             <br></h5><h5><br></h5><h5>
-                            Chúng tôi luôn cập nhật các xu hướng thời trang mới nhất, 
-                            đảm bảo rằng bạn sẽ luôn có những sản phẩm đẹp và phù hợp với phong cách của mình. 
-                            Từ những bộ cánh phong cách đường phố đến những thiết kế sang trọng cho các buổi tiệc, 
-                            chúng tôi có tất cả những gì bạn cần để thể hiện phong cách cá nhân của mình.
-                            <br></h5><h5><br></h5><h5>Ngoài ra, 
-                            chúng tôi cũng cung cấp cho khách hàng các phụ kiện thời trang đa dạng, từ giày dép, túi xách, 
-                            đồng hồ đến trang sức và nhiều thứ khác, giúp khách hàng hoàn thiện phong cách của mình một cách tuyệt vời.
+                            Với sự đa dạng của thiết kế, chúng tôi mang đến cho bạn một bộ sưu tập phong phú, từ những bộ cánh casual hàng ngày cho đến những thiết kế sang trọng cho các dịp đặc biệt. Bạn có thể khám phá các sản phẩm áo thun, quần jean, áo khoác bomber và nhiều thiết kế streetwear đẳng cấp, hoặc tìm kiếm những bộ cánh lịch sự như váy dạ hội, đầm maxi, áo sơ mi hay quần tây cho các buổi tiệc hoặc sự kiện quan trọng.
                             <br></h5><h5><br></h5><h5>
-                            Đội ngũ nhân viên của chúng tôi luôn sẵn sàng hỗ trợ bạn trong quá trình mua sắm. 
-                            Chúng tôi cam kết đem đến cho khách hàng những trải nghiệm mua sắm tuyệt vời, từ việc tìm kiếm sản phẩm đến việc đặt hàng và nhận hàng.
-                            </h5><p><br></p><h5>
-                            Chúng tôi tự hào giới thiệu cho bạn những sản phẩm thời trang đa dạng và phong phú. 
-                            Từ những bộ cánh casual hàng ngày đến những thiết kế sang trọng cho các dịp đặc biệt, 
-                            chúng tôi có tất cả những gì bạn cần để thể hiện phong cách cá nhân của mình.
-                            <br></h5><h5><br></h5><h5>Với những thiết kế đa dạng, 
-                            chúng tôi cam kết đem đến cho khách hàng những trải nghiệm mua sắm tuyệt vời. 
-                            Những sản phẩm của chúng tôi được thiết kế và sản xuất bởi những thương hiệu nổi tiếng trên thế giới, 
-                            đảm bảo về chất lượng và độ bền.<br></h5><h5><br></h5><h5>Nếu bạn đang tìm kiếm những bộ cánh năng động và trẻ trung, 
-                            hãy khám phá các sản phẩm áo thun, quần jean, áo khoác bomber, 
-                            hoặc các thiết kế streetwear đầy phong cách. 
-                            Nếu bạn cần một bộ cánh lịch sự cho một buổi tiệc hoặc sự kiện quan trọng, 
-                            chúng tôi cũng có các thiết kế sang trọng như váy dạ hội, đầm maxi, áo sơ mi hay quần tây.
+                            Ngoài ra, chúng tôi cũng cung cấp các sản phẩm thời trang thể thao, đáp ứng nhu cầu của những người yêu thích hoạt động thể thao và tìm kiếm sự thoải mái khi mặc.
                             <br></h5><h5><br></h5><h5>
-                            Ngoài ra, chúng tôi cũng cung cấp các sản phẩm thời trang thể thao, 
-                            đáp ứng nhu cầu của những khách hàng yêu thích các hoạt động thể thao và thích sự thoải mái khi mặc.
+                            Đặc biệt, chúng tôi không chỉ chú trọng vào sản phẩm mà còn chú trọng đến trải nghiệm của khách hàng. Chúng tôi nỗ lực không ngừng để đáp ứng nhu cầu của bạn, từ việc cập nhật xu hướng thời trang mới nhất cho đến việc cải tiến dịch vụ khách hàng, nhằm mang đến cho bạn trải nghiệm mua sắm thú vị và tiện lợi nhất.
                             <br>
-                            Hãy truy cập vào website của chúng tôi để khám phá thêm các sản phẩm thời trang đa dạng và phong phú. 
-                            Chúng tôi tin rằng, bạn sẽ tìm thấy những sản phẩm ưng ý và phù hợp với phong cách cá nhân của mình.</h5>
+                            Hãy truy cập vào website của chúng tôi ngay hôm nay để khám phá thêm về bộ sưu tập thời trang đa dạng và phong phú của chúng tôi. Chúng tôi tin rằng, bạn sẽ tìm thấy những sản phẩm ưng ý và phù hợp với phong cách cá nhân của mình. VH Clothings luôn sẵn lòng đồng hành cùng bạn trên hành trình thời trang của bạn!</h5>
                         '
                     ],
                 ]
             ]
         ];
 
-        foreach ($databases as $database ) {
+        foreach ($databases as $database) {
             $recordNumber = DB::table($database['table'])->count();
             foreach ($database['data'] as $key => $record) {
                 if ($key >= $recordNumber)
-                DB::table($database['table'])->insert($record);
+                    DB::table($database['table'])->insert($record);
             }
         }
     }

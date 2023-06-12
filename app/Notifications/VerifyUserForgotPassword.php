@@ -42,7 +42,7 @@ class VerifyUserForgotPassword extends Notification
             . '/account/change-new-password/'
             . '?token=' . $this->token;
         return (new MailMessage)
-                    ->subject('[FLATSHOP] QUÊN MẬT KHẨU')
+                    ->subject('[VHCLOTHINGS] QUÊN MẬT KHẨU')
                     ->line('--------------------------------')
                     ->line('Để xác nhận bạn đang quên mật khẩu vui lòng bấm liên kết bên dưới chúng tôi sẽ giúp bạn hỗ trợ đổi lại mật khẩu mới')
                     ->action('Xác Nhận', $verifyUrl);
