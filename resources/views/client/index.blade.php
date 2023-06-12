@@ -9,7 +9,7 @@
             <ul class="sequence-canvas">
                 <li class="animate-in">
                     <div class="flat-caption caption2 formLeft delay400 text-center">
-                        <h1>FLAT SHOP</h1>
+                        <h1>VH CLOTHINGS</h1>
                     </div>
                     <div class="flat-caption caption3 formLeft delay500 text-center">
                         <p>Chào mừng đến với shop thời trang của chúng tôi - nơi cung cấp các sản phẩm đa dạng và chất lượng cao. Đến với chúng tôi để tìm kiếm phong cách của bạn!</p>
@@ -19,7 +19,7 @@
                 </li>
                 <li>
                     <div class="flat-caption caption2 formLeft delay400 text-center">
-                        <h1>FLAT SHOP</h1>
+                        <h1>VH CLOTHINGS</h1>
                     </div>
                     <div class="flat-caption caption3 formLeft delay500 text-center">
                         <p>Chào mừng đến với shop thời trang của chúng tôi - nơi cung cấp các sản phẩm đa dạng và chất lượng cao. Đến với chúng tôi để tìm kiếm phong cách của bạn!</p>

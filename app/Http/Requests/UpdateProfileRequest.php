@@ -31,7 +31,7 @@ class UpdateProfileRequest extends FormRequest
             'phone_number' => 'required|min:10|max:11',
             'city' => 'required|integer',
             'district' => 'required|integer',
-            'ward' => 'required|integer',
+            'ward' => 'required',
             'apartment_number' => 'required|string|min:1|max:100',
         ];
     }
