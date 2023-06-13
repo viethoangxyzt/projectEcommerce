@@ -49,19 +49,19 @@ class CheckOutService
         $email = old('email') ?? Auth::user()->email;
 
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/province');
         $citys = json_decode($response->body(), true);
 
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/district', [
             'province_id' => $city,
         ]);
         $districts = json_decode($response->body(), true);
 
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/ward', [
             'district_id' => $district,
         ]);
@@ -87,11 +87,11 @@ class CheckOutService
     {
         try {
             //get service id
-            $fromDistrict = "1530";
-            $shopId = "3577591";
+            $fromDistrict = "1542";
+            $shopId = "4237150";
             $toDistrict = Auth::user()->address->district;
             $response = Http::withHeaders([
-                'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+                'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
             ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services', [
                 "shop_id" => $shopId,
                 "from_district" => $fromDistrict,
@@ -113,7 +113,7 @@ class CheckOutService
                 "width" => 15
             ];
             $response = Http::withHeaders([
-                'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+                'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
             ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', $dataGetFee);
             $fee = $response['data']['total'];
             //data order
@@ -176,11 +176,11 @@ class CheckOutService
     public function getTransportFee()
     {
         //get service id
-        $fromDistrict = "1530";
-        $shopId = "3577591";
+        $fromDistrict = "1542";
+        $shopId = "4237150";
         $toDistrict = Auth::user()->address->district;
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services', [
             "shop_id" => $shopId,
             "from_district" => $fromDistrict,
@@ -202,7 +202,7 @@ class CheckOutService
             "width" => 15
         ];
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', $dataGetFee);
 
         return $response['data']['total'];
@@ -351,4 +351,3 @@ class CheckOutService
         return redirect($jsonResult['payUrl']);
     }
 }
-?>

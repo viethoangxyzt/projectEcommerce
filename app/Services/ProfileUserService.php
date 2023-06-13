@@ -53,17 +53,17 @@ class ProfileUserService
         $fullName = old('full_name') ?? Auth::user()->name;
         $email = old('email') ?? Auth::user()->email;
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/province');
         $citys = json_decode($response->body(), true);
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/district', [
             'province_id' => $city,
         ]);
         $districts = json_decode($response->body(), true);
         $response = Http::withHeaders([
-            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+            'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/ward', [
             'district_id' => $district,
         ]);

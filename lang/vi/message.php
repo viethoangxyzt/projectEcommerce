@@ -19,4 +19,5 @@ return [
         'at_least_one_digit_is_required' => 'ít nhất một chữ số',
         'at_least_special_characte_is_required' => 'Mật khẩu phải chứa ít nhất 1 kí tự đặc biệt (%, #, @, _, /, -)',
     ],
+    'token_is_invalid' => 'Mã xác thực không hợp lệ',
 ];
