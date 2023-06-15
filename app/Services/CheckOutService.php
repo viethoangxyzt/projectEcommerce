@@ -85,6 +85,7 @@ class CheckOutService
 
     public function store(CheckOutRequest $request)
     {
+        
         try {
             //get service id
             $fromDistrict = "1542";
@@ -144,7 +145,6 @@ class CheckOutService
             DB::commit();
             // remove cart
             \Cart::clear();
-
             return redirect()->route('order_history.index');
         } catch (Exception $e) {
             Log::error($e);
@@ -164,6 +164,7 @@ class CheckOutService
                     );
                 }
             }
+            
             return redirect()->route('cart.index')->with('error', 'Có lỗi xảy ra vui lòng kiểm tra lại');
         }
     }
@@ -210,6 +211,9 @@ class CheckOutService
 
     public function callbackMomo(Request $request)
     {
+        if($request->errorCode != 0) {
+            return redirect()->route('cart.index')->with('error', $request->localMessage);
+        }    
         try {
             if (! $this->checkSignature($request)) {
                 return redirect()->route('user.home');
@@ -223,6 +227,7 @@ class CheckOutService
                 'order_status' => Order::STATUS_ORDER['wait'],
                 'transport_fee' => $this->getTransportFee(),
                 'note' => null,
+                'payment_status' => 1,
             ];
             DB::beginTransaction();
             // create order
@@ -300,7 +305,6 @@ class CheckOutService
             "&payType=" . $payType. 
             "&extraData=" . $extraData;
         $signature = hash_hmac("sha256", $rawHash, $secretKey);
-        
         if (hash_equals($signature, $request->signature)) {
             return true;
         }
