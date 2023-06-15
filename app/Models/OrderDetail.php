@@ -28,5 +28,6 @@ class OrderDetail extends Model
         'product_size_id',
         'unit_price',
         'quantity',
+        'review_status'
     ];
 }

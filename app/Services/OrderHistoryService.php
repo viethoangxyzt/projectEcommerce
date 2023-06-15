@@ -47,6 +47,7 @@ class OrderHistoryService
     {
         try {
             switch($order->order_status){
+                
                 case 0:
                     $this->orderRepository->update($order, ['order_status' => Order::STATUS_ORDER['cancel']]);
                     $orderDetails = OrderDetail::where('order_id', $order->id)->get();
@@ -56,7 +57,8 @@ class OrderHistoryService
                     }
                     return back()->with('success', TextSystemConst::MESS_ORDER_HISTORY['cancel']);
                 case 1:
-                    $this->orderRepository->update($order, ['order_status' => Order::STATUS_ORDER['received']]);
+            
+                    $this->orderRepository->update($order, ['order_status' => Order::STATUS_ORDER['received'], 'can_review_time' => now()->addDays(7)]);
                     return back()->with('success', TextSystemConst::MESS_ORDER_HISTORY['confirm']);
                 case 2:
                     $this->orderRepository->delete($order);

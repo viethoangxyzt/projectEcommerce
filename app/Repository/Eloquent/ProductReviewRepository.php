@@ -23,20 +23,39 @@ class ProductReviewRepository extends BaseRepository
 
     public function checkUserBuyProduct($productId, $userId)
     {
+        $currentTime = date('Y-m-d H:i:s');
         return DB::select("
             select * from products 
             join products_color on products.id = products_color.product_id
             join products_size on products_color.id = products_size.product_color_id
             join order_details on order_details.product_size_id = products_size.id
             join orders on orders.id = order_details.order_id
-            where orders.order_status = 3 and products.id = $productId and orders.user_id = $userId;
+            where orders.order_status = 3 and products.id = $productId 
+            and orders.user_id = $userId and orders.can_review_time < '$currentTime';
         ");
     }
 
     public function checkUserProductReview($productId, $userId)
     {
-        return $this->model->join('products', 'products.id', '=', 'product_reviews.product_id')
-        ->where('product_reviews.product_id', $productId)->where('product_reviews.user_id', $userId)->count();
+        return DB::table('order_details')
+        ->join('orders', 'orders.id', '=', 'order_details.order_id')
+        ->join('products_size', 'products_size.id', '=', 'order_details.product_size_id')
+        ->join('products_color', 'products_color.id', '=', 'products_size.product_color_id')
+        ->join('products', 'products.id', '=', 'products_color.product_id')
+        ->where('products.id', $productId)
+        ->where('orders.user_id', $userId)
+        ->where('orders.order_status', 3)
+        ->where('orders.can_review_time', '<',now())
+        ->orderBy('orders.can_review_time', 'desc')
+        ->select('order_details.*')
+        ->first();
+
+    }
+
+    public function checkLimitReview($productId, $userId) {
+        return $this->model->where('product_id', $productId)
+        ->where('user_id', $userId)
+        ->where('created_at', '>=', now()->subDays(7))->count();
     }
 
     public function getRatingByProduct($productId)
@@ -64,16 +83,6 @@ class ProductReviewRepository extends BaseRepository
         ->where('product_reviews.product_id', '=', $productId)
         ->orderBy('id', 'desc')
         ->paginate(ProductReview::PRODUCT_REVIEW_NUMBER_ITEM);
-
-        // return DB::select("
-        //     select users.name as user_name, product_reviews.* from products join product_reviews on products.id = product_reviews.product_id
-        //     join users on users.id = product_reviews.user_id
-        //     and users.active = 1
-        //     and product_reviews.deleted_at is null 
-        //     and users.deleted_at is null
-        //     and product_reviews.product_id = $productId
-        //     order by id desc;
-        // ");
     }
 
     public function avgRatingProduct($productId)
@@ -84,6 +93,7 @@ class ProductReviewRepository extends BaseRepository
         ->where('products.id', $productId)
         ->first();
     }
+
 }
 
 ?>
