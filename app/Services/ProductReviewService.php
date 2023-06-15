@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Helpers\TextSystemConst;
 use App\Http\Requests\ProductReviewRequest;
+use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Repository\Eloquent\OrderDetailRepository;
 use App\Repository\Eloquent\ProductReviewRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -19,13 +21,20 @@ class ProductReviewService
     private $productReviewReprository;
 
     /**
+     * @var OrderDetailRepository
+     */
+    private $orderDetailRepository;
+
+    /**
      * ProductReviewService constructor.
      *
      * @param ProductReviewRepository $productReviewReprository
+     * @param OrderDetailRepository  $orderDetailRepository
      */
-    public function __construct(ProductReviewRepository $productReviewReprository)
+    public function __construct(ProductReviewRepository $productReviewReprository, OrderDetailRepository $orderDetailRepository)
     {
         $this->productReviewReprository = $productReviewReprository;
+        $this->orderDetailRepository = $orderDetailRepository;
     }
     
     /** 
@@ -42,6 +51,8 @@ class ProductReviewService
             }
             $data['user_id'] = Auth::user()->id;
             $data['product_id'] = $product->id;
+            $this->orderDetailRepository->updateStatusReview( $data['user_id'],$data['product_id']);
+    
             $this->productReviewReprository->create($data);
             return back()->with('success', "Đánh giá sản phẩm thành công");;
         } catch (Exception $e) {
@@ -60,10 +71,13 @@ class ProductReviewService
             return true;
         }
 
-        if ($this->productReviewReprository->checkUserProductReview($product->id, $user->id) >= 1) {
+        if ($this->productReviewReprository->checkUserProductReview($product->id, $user->id)->review_status == 1) {
             return true;
         }
-
+        
+        if($this->productReviewReprository->checkLimitReview($product->id, $user->id) >= 2) {
+            return true;
+        }
         return false;
     }
 
@@ -86,4 +100,3 @@ class ProductReviewService
         }
     }
 }
-?>
