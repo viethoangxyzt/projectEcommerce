@@ -90,7 +90,7 @@ class CheckOutService
             //get service id
             $fromDistrict = "1542";
             $shopId = "4237150";
-            $toDistrict = Auth::user()->address->district;
+            $toDistrict = $request->district;
             $response = Http::withHeaders([
                 'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
             ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services', [
@@ -106,8 +106,8 @@ class CheckOutService
                 "insurance_value" => 500000,
                 "coupon" => null,
                 "from_district_id" => $fromDistrict,
-                "to_district_id" => Auth::user()->address->district,
-                "to_ward_code" => Auth::user()->address->ward,
+                "to_district_id" => $request->district,
+                "to_ward_code" => $request->ward,
                 "height" => 15,
                 "length" => 15,
                 "weight" => 1000,
@@ -171,6 +171,7 @@ class CheckOutService
 
     public function paymentMomo() 
     {
+        dd($this->getTransportFee());
         return $this->payWithMoMo(time() . mt_rand(111, 999)."", \Cart::getTotal() + $this->getTransportFee()."", route('checkout.callback_momo'), route('cart.index'));
     }
 

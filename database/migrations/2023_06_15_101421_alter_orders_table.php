@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->timestamp('can_review_time')->nullable();
+            $table->integer('user_cancel')->nullable();
         });
     }
 

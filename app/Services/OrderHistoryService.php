@@ -49,7 +49,7 @@ class OrderHistoryService
             switch($order->order_status){
                 
                 case 0:
-                    $this->orderRepository->update($order, ['order_status' => Order::STATUS_ORDER['cancel']]);
+                    $this->orderRepository->update($order, ['order_status' => Order::STATUS_ORDER['cancel'], 'user_cancel' => 1]);
                     $orderDetails = OrderDetail::where('order_id', $order->id)->get();
                     foreach($orderDetails as $orderDetail) {
                         $productSize = ProductSize::where('id', $orderDetail->product_size_id)->first();

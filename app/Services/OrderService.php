@@ -168,6 +168,9 @@ class OrderService
     {
         try {
             $data = $request->all();
+            if($order->user_cancel == 1) {
+                return redirect()->route('admin.orders_index')->with('success', 'Khách hàng đã huỷ đơn hàng');
+            }
             if ($request->order_status == 2) {
                 $orderDetails = OrderDetail::where('order_id', $order->id)->get();
                 foreach($orderDetails as $orderDetail) {
@@ -197,4 +200,3 @@ class OrderService
     }
 
 }
-?>
