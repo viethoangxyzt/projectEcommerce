@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
     $.ajaxSetup({
         headers: {
@@ -90,14 +91,18 @@ function getFee()
             weight:1000,
             width:15
         }
-
+        console.log(data)
         $.ajax({
             type: 'GET',
             url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',
+            headers: {
+                'token': 'd2852b91-09c4-11ee-a967-deea53ba3605'
+            },
             data: data
         }).done((respones) => {
             let fee = parseInt(respones.data.total);
-            let totalProduct = parseInt($('#total-order-input').val());
+            console.log(respones.data)
+            let totalProduct = parseInt($('#total-order-input2').val());
             $('#fee').text(new Intl.NumberFormat().format(fee));
             $('#total-order').text(new Intl.NumberFormat().format(fee + totalProduct));
             $('#total-order-input').val(fee + totalProduct)

@@ -34,6 +34,7 @@ class Order extends Model
         'note',
         'payment_status',
         'can_review_time',
+        'user_cancel',
     ];
 
     const STATUS_ORDER = [
