@@ -33,6 +33,7 @@ class Product extends Model
         'status',
         'category_id',
         'brand_id',
+        'weight',
     ];
 
     const PRODUCT_NUMBER_ITEM = [

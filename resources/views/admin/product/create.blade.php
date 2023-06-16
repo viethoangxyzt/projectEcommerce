@@ -57,11 +57,19 @@
                       @endforeach
                     </select>
                   </x-admin-input-prepend>
-                  <x-admin-input-prepend label="Danh Mục" width="auto">
+                  <x-admin-input-prepend label="Khối lượng (g)" col="col-6" width="auto">
+                    <input 
+                      id="weight"
+                      type="number" 
+                      name="weight"
+                      class="form-control">
+                  </x-admin-input-prepend>
+                  <x-admin-input-prepend label="Danh Mục" col="col-6" width="auto">
                     <select class="form-control" name="category_id" id="category_id" route="{{ route('admin.category_by_parent') }}">
                       
                     </select>
                   </x-admin-input-prepend>
+                 
                   <div class="card card-outline card-info col-12">
                     <div class="card-header">
                       <h3 class="card-title">

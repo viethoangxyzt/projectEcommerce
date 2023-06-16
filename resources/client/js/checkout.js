@@ -66,6 +66,8 @@ function getFee()
     let shop_id = "4237150";
     let from_district = "1542";
     let to_district = $('#district').val();
+    let weight = $('#total-weight').val();
+    console.log(weight)
     $.ajax({
         type: 'GET',
         url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services',
@@ -86,10 +88,10 @@ function getFee()
             from_district_id: from_district,
             to_district_id: to_district_id,
             to_ward_code: to_ward_code,
-            height:15,
-            length:15,
-            weight:1000,
-            width:15
+            height:20,
+            length:20,
+            weight: weight,
+            width:20
         }
         console.log(data)
         $.ajax({

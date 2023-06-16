@@ -39,7 +39,7 @@ class CheckOutController extends Controller
     {
         // check payment method is momo
         if ($request->payment_method == 2) {
-            return $this->checkOutService->paymentMomo();
+            return $this->checkOutService->paymentMomo($request);
         }
         
         return $this->checkOutService->store($request);

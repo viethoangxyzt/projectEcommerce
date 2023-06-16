@@ -13,9 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->timestamp('can_review_time')->nullable();
-            $table->integer('user_cancel')->nullable();
+        Schema::table('products', function (Blueprint $table) {
             $table->integer('weight')->nullable();
         });
     }

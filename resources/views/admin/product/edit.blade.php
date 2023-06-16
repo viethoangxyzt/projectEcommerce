@@ -79,7 +79,15 @@
                       @endforeach
                     </select>
                   </x-admin-input-prepend>
-                  <x-admin-input-prepend label="Danh Mục" width="auto">
+                  <x-admin-input-prepend label="Khối lượng (g)" col="col-6" width="auto">
+                    <input 
+                      id="weight"
+                      type="number" 
+                      name="weight"
+                      value="{{ $product->weight }}"
+                      class="form-control">
+                  </x-admin-input-prepend>
+                  <x-admin-input-prepend label="Danh Mục" col="col-6" width="auto">
                     <select class="form-control" value="{{ $product->category_id }}" name="category_id" id="category_id" route="{{ route('admin.category_by_parent') }}">
                       
                     </select>

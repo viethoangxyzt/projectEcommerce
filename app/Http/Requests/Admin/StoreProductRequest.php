@@ -30,7 +30,8 @@ class StoreProductRequest extends FormRequest
             'brand_id' => 'required|integer',
             'category_id' => 'required|integer',
             'description' => 'required',
-            'img' => 'required'
+            'img' => 'required',
+            'weight' => 'integer'
         ];
     }
 

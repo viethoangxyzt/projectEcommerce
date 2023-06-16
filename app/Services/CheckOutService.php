@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\ProductSize;
 use App\Repository\Eloquent\OrderDetailRepository;
 use App\Repository\Eloquent\OrderRepository;
+use Darryldecode\Cart\Cart;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Psy\TabCompletion\Matcher\FunctionsMatcher;
 
 class CheckOutService 
 {
@@ -99,7 +101,7 @@ class CheckOutService
                 "to_district" => $toDistrict,
             ]);
             $serviceId = $response['data'][0]['service_id'];
-            
+            $weightOrder = $this->getWeightOrder();
             //data get fee
             $dataGetFee = [
                 "service_id" => $serviceId,
@@ -108,16 +110,17 @@ class CheckOutService
                 "from_district_id" => $fromDistrict,
                 "to_district_id" => $request->district,
                 "to_ward_code" => $request->ward,
-                "height" => 15,
-                "length" => 15,
-                "weight" => 1000,
-                "width" => 15
+                "height" => 20,
+                "length" => 20,
+                "weight" => $weightOrder,
+                "width" => 20
             ];
             $response = Http::withHeaders([
                 'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
             ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', $dataGetFee);
             $fee = $response['data']['total'];
             //data order
+            
             $dataOrder = [
                 'id' => time() . mt_rand(111, 999),
                 'payment_id' => $request->payment_method,
@@ -134,6 +137,7 @@ class CheckOutService
             // create order detail
             foreach(\Cart::getContent() as $product){
                 // data order detail
+                // dd(\Cart::getContent());
                 $orderDetail = [
                     'order_id' => $order->id,
                     'product_size_id' => $product->id,
@@ -169,18 +173,17 @@ class CheckOutService
         }
     }
 
-    public function paymentMomo() 
+    public function paymentMomo(CheckOutRequest $request) 
     {
-        dd($this->getTransportFee());
-        return $this->payWithMoMo(time() . mt_rand(111, 999)."", \Cart::getTotal() + $this->getTransportFee()."", route('checkout.callback_momo'), route('cart.index'));
+        return $this->payWithMoMo(time() . mt_rand(111, 999)."", \Cart::getTotal() + $this->getTransportFee($request)."", route('checkout.callback_momo'), route('cart.index'));
     }
 
-    public function getTransportFee()
+    public function getTransportFee(CheckoutRequest $request)
     {
         //get service id
         $fromDistrict = "1542";
         $shopId = "4237150";
-        $toDistrict = Auth::user()->address->district;
+        $toDistrict = $request->district;
         $response = Http::withHeaders([
             'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services', [
@@ -189,19 +192,19 @@ class CheckOutService
             "to_district" => $toDistrict,
         ]);
         $serviceId = $response['data'][0]['service_id'];
-        
+        $weightOrder = $this->getWeightOrder();
         //data get fee
         $dataGetFee = [
             "service_id" => $serviceId,
             "insurance_value" => 500000,
             "coupon" => null,
             "from_district_id" => $fromDistrict,
-            "to_district_id" => Auth::user()->address->district,
-            "to_ward_code" => Auth::user()->address->ward,
-            "height" => 15,
-            "length" => 15,
-            "weight" => 1000,
-            "width" => 15
+            "to_district_id" => $request->district,
+            "to_ward_code" => $request->ward,
+            "height" => 20,
+            "length" => 20,
+            "weight" => $weightOrder,
+            "width" => 2
         ];
         $response = Http::withHeaders([
             'token' => 'd2852b91-09c4-11ee-a967-deea53ba3605'
@@ -354,5 +357,13 @@ class CheckOutService
         ])->post($endPoint, $data);
         $jsonResult = json_decode($result->body(), true);  // decode json
         return redirect($jsonResult['payUrl']);
+    }
+
+    public function getWeightOrder(){
+        $weightOrder = 0;
+        foreach(\Cart::getContent() as $product){
+            ($product->weight) ? $weightOrder += $product->weight*$product->quantity : $weightOrder += 200*$product->quantity;
+        }
+        return $weightOrder;
     }
 }
