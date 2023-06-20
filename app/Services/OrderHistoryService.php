@@ -9,6 +9,7 @@ use App\Models\ProductSize;
 use App\Repository\Eloquent\OrderRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class OrderHistoryService 
 {
@@ -36,10 +37,44 @@ class OrderHistoryService
 
     public function show(Order $order)
     {
+        $address['apartment_number'] = $order->apartment_number;
+        $response = Http::withHeaders([
+            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+        ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/province');
+        $data = json_decode($response->body(), true);
+        foreach ($data['data'] as $item) {
+            if ($order->city == $item['ProvinceID']) {
+                $address['city'] = $item['NameExtension'][1];
+            }
+        }
+        $response = Http::withHeaders([
+            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+        ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/district', [
+            'province_id' => $order->city,
+        ]);
+        $data = json_decode($response->body(), true);
+        foreach ($data['data'] as $item) {
+            if ($order->district == $item['DistrictID']) {
+                 $address['district'] = $item['DistrictName'];
+            }
+        }
+
+        $response = Http::withHeaders([
+            'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
+        ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/ward', [
+            'district_id' => $order->district,
+        ]);
+        $data = json_decode($response->body(), true);
+        foreach ($data['data'] as $item) {
+            if ($order->ward == $item['WardCode']) {
+                $address['ward'] = $item['NameExtension'][0];
+            }
+        }
         return [
             'order' => $order,
             'order_details' => $this->orderRepository->getOrderDetail($order->id),
             'infomationUser' => $this->orderRepository->getInfoUserOfOrder($order->id),
+            'address' => $address
         ];
     }
 

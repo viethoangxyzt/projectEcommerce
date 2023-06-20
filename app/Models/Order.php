@@ -35,7 +35,11 @@ class Order extends Model
         'payment_status',
         'can_review_time',
         'user_cancel',
-        'weight'
+        'weight',
+        'city',
+        'district',
+        'ward',
+        'apartment_number',
     ];
 
     const STATUS_ORDER = [

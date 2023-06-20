@@ -12,7 +12,8 @@
           <h3 class="title">
             Chi Tiết Đơn Hàng {{ $order->id }}
           </h3>
-          <div style="padding-bottom: 30px;">
+          <h5>Địa chỉ nhận hàng: {{ $address['apartment_number'] . ', ' . $address['ward'] . ', ' . $address['district'] . ', ' . $address['city'] }}</h5>
+          <div style="padding: 30px 0 30px 0">
             <a href="{{ route('order_history.index') }}" class="btn-a">Quay Lại</a>
           </div>
           <div class="clearfix">

@@ -6,8 +6,10 @@ use App\Http\Requests\CheckOutRequest;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\ProductSize;
+use App\Models\TemporaryAddress;
 use App\Repository\Eloquent\OrderDetailRepository;
 use App\Repository\Eloquent\OrderRepository;
+use App\Repository\Eloquent\TemporaryAddressRepository;
 use Darryldecode\Cart\Cart;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Psy\TabCompletion\Matcher\FunctionsMatcher;
 
-class CheckOutService 
+class CheckOutService
 {
     /**
      * @var OrderRepository
@@ -31,14 +33,20 @@ class CheckOutService
     private $orderDetailRepository;
 
     /**
+     * @var TempotaryAddressRepository
+     */
+    private $temporaryAddressRepository;
+
+    /**
      * CheckOutService constructor.
      *
      * @param OrderRepository $orderRepository
      */
-    public function __construct(OrderRepository $orderRepository, OrderDetailRepository $orderDetailRepository)
+    public function __construct(OrderRepository $orderRepository, OrderDetailRepository $orderDetailRepository, TemporaryAddressRepository $temporaryAddressRepository)
     {
         $this->orderRepository = $orderRepository;
         $this->orderDetailRepository = $orderDetailRepository;
+        $this->temporaryAddressRepository = $temporaryAddressRepository;
     }
     public function index()
     {
@@ -69,7 +77,7 @@ class CheckOutService
         ]);
         $wards = json_decode($response->body(), true);
 
-        $payments = Payment::where('status', Payment::STATUS['active'])-> get();
+        $payments = Payment::where('status', Payment::STATUS['active'])->get();
         return [
             'citys' => $citys['data'],
             'districts' => $districts['data'],
@@ -87,7 +95,7 @@ class CheckOutService
 
     public function store(CheckOutRequest $request)
     {
-        
+
         try {
             //get service id
             $fromDistrict = "1542";
@@ -120,7 +128,7 @@ class CheckOutService
             ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', $dataGetFee);
             $fee = $response['data']['total'];
             //data order
-            
+
             $dataOrder = [
                 'id' => time() . mt_rand(111, 999),
                 'payment_id' => $request->payment_method,
@@ -129,13 +137,17 @@ class CheckOutService
                 'order_status' => Order::STATUS_ORDER['wait'],
                 'transport_fee' => $fee,
                 'note' => null,
+                'city' => $request->city,
+                'district' => $request->district,
+                'ward' => $request->ward,
+                'apartment_number' => $request->apartment_number
             ];
             DB::beginTransaction();
             // create order
             $order = $this->orderRepository->create($dataOrder);
 
             // create order detail
-            foreach(\Cart::getContent() as $product){
+            foreach (\Cart::getContent() as $product) {
                 // data order detail
                 // dd(\Cart::getContent());
                 $orderDetail = [
@@ -154,9 +166,9 @@ class CheckOutService
             Log::error($e);
             DB::rollBack();
             // check quantity product
-            foreach(\Cart::getContent() as $product){
+            foreach (\Cart::getContent() as $product) {
                 $productSize = ProductSize::where('id', $product->id)->first();
-                if($productSize->quantity < $product->quantity) {
+                if ($productSize->quantity < $product->quantity) {
                     \Cart::update(
                         $product->id,
                         [
@@ -168,14 +180,23 @@ class CheckOutService
                     );
                 }
             }
-            
+
             return redirect()->route('cart.index')->with('error', 'Có lỗi xảy ra vui lòng kiểm tra lại');
         }
     }
 
-    public function paymentMomo(CheckOutRequest $request) 
+    public function paymentMomo(CheckOutRequest $request)
     {
-        return $this->payWithMoMo(time() . mt_rand(111, 999)."", \Cart::getTotal() + $this->getTransportFee($request)."", route('checkout.callback_momo'), route('cart.index'));
+        $dataTemporaryAddress = [
+            'user_id' => Auth::user()->id,
+            'city' => $request->city,
+            'district' => $request->district,
+            'ward' => $request->ward,
+            'apartment_number' => $request->apartment_number,
+            'transport_fee' => $this->getTransportFee($request)
+        ];
+        TemporaryAddress::create($dataTemporaryAddress);
+        return $this->payWithMoMo(time() . mt_rand(111, 999) . "", \Cart::getTotal() + $this->getTransportFee($request) . "", route('checkout.callback_momo'), route('cart.index'));
     }
 
     public function getTransportFee(CheckoutRequest $request)
@@ -215,13 +236,16 @@ class CheckOutService
 
     public function callbackMomo(Request $request)
     {
-        if($request->errorCode != 0) {
+        if ($request->errorCode != 0) {
+            TemporaryAddress::where('user_id', Auth::user()->id)->first()->delete();
             return redirect()->route('cart.index')->with('error', $request->localMessage);
-        }    
+           
+        }
         try {
-            if (! $this->checkSignature($request)) {
+            if (!$this->checkSignature($request)) {
                 return redirect()->route('user.home');
             }
+            $temporaryAddress = TemporaryAddress::where('user_id', Auth::user()->id)->first();
             //data order
             $dataOrder = [
                 'id' => $request->orderId,
@@ -229,16 +253,20 @@ class CheckOutService
                 'user_id' => Auth::user()->id,
                 'total_money' => $request->amount,
                 'order_status' => Order::STATUS_ORDER['wait'],
-                'transport_fee' => $this->getTransportFee(),
+                'transport_fee' => $temporaryAddress->transport_fee,
                 'note' => null,
                 'payment_status' => 1,
+                'city' => $temporaryAddress->city,
+                'district' => $temporaryAddress->district,
+                'ward' => $temporaryAddress->ward,
+                'apartment_number' => $temporaryAddress->apartment_number,
             ];
             DB::beginTransaction();
             // create order
             $order = $this->orderRepository->create($dataOrder);
-
+            TemporaryAddress::where('user_id', Auth::user()->id)->first()->delete();
             // create order detail
-            foreach(\Cart::getContent() as $product){
+            foreach (\Cart::getContent() as $product) {
                 // data order detail
                 $orderDetail = [
                     'order_id' => $order->id,
@@ -257,9 +285,9 @@ class CheckOutService
             Log::error($e);
             DB::rollBack();
             // check quantity product
-            foreach(\Cart::getContent() as $product){
+            foreach (\Cart::getContent() as $product) {
                 $productSize = ProductSize::where('id', $product->id)->first();
-                if($productSize->quantity < $product->quantity) {
+                if ($productSize->quantity < $product->quantity) {
                     \Cart::update(
                         $product->id,
                         [
@@ -279,40 +307,40 @@ class CheckOutService
     {
         $partnerCode = $request->partnerCode;
         $accessKey = $request->accessKey;
-        $requestId = $request->requestId."";
-        $amount = $request->amount."";
-        $orderId = $request->orderId."";
+        $requestId = $request->requestId . "";
+        $amount = $request->amount . "";
+        $orderId = $request->orderId . "";
         $orderInfo = $request->orderInfo;
         $orderType = $request->orderType;
         $transId = $request->transId;
         $message = $request->message;
         $localMessage = $request->localMessage;
         $responseTime = $request->responseTime;
-        $errorCode = $request->errorCode;   
+        $errorCode = $request->errorCode;
         $payType = $request->payType;
         $extraData = $request->extraData;
         $secretKey = env('MOMO_SECRET_KEY');
         $extraData = "";
 
         $rawHash = "partnerCode=" . $partnerCode .
-            "&accessKey=" . $accessKey . 
-            "&requestId=" . $requestId . 
-            "&amount=" . $amount . 
-            "&orderId=" . $orderId . 
-            "&orderInfo=" . $orderInfo . 
+            "&accessKey=" . $accessKey .
+            "&requestId=" . $requestId .
+            "&amount=" . $amount .
+            "&orderId=" . $orderId .
+            "&orderInfo=" . $orderInfo .
             "&orderType=" . $orderType .
-            "&transId=" . $transId. 
+            "&transId=" . $transId .
             "&message=" . $message .
-            "&localMessage=" . $localMessage.
-            "&responseTime=" . $responseTime.
-            "&errorCode=" . $errorCode. 
-            "&payType=" . $payType. 
+            "&localMessage=" . $localMessage .
+            "&responseTime=" . $responseTime .
+            "&errorCode=" . $errorCode .
+            "&payType=" . $payType .
             "&extraData=" . $extraData;
         $signature = hash_hmac("sha256", $rawHash, $secretKey);
         if (hash_equals($signature, $request->signature)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -324,17 +352,17 @@ class CheckOutService
         $secretKey = env('MOMO_SECRET_KEY');
         $orderInfo = "Thanh toán qua MoMo";
         $bankCode = env('MOMO_BANK_CODE');
-        $requestId = time().mt_rand(111, 999)."";
+        $requestId = time() . mt_rand(111, 999) . "";
         $requestType = "captureMoMoWallet";
         $extraData = "";
         $rawHash = "partnerCode=" . $partnerCode .
-            "&accessKey=" . $accessKey . 
-            "&requestId=" . $requestId . 
-            "&amount=" . $amount . 
-            "&orderId=" . $orderId . 
-            "&orderInfo=" . $orderInfo . 
-            "&returnUrl=" . $returnUrl . 
-            "&notifyUrl=" . $notifyurl . 
+            "&accessKey=" . $accessKey .
+            "&requestId=" . $requestId .
+            "&amount=" . $amount .
+            "&orderId=" . $orderId .
+            "&orderInfo=" . $orderInfo .
+            "&returnUrl=" . $returnUrl .
+            "&notifyUrl=" . $notifyurl .
             "&extraData=" . $extraData;
         // $rawHash = "partnerCode=".$partnerCode."&accessKey=".$accessKey."&requestId=".$requestId."&bankCode=".$bankCode."&amount=".$amount."&orderId=".$orderId."&orderInfo=".$orderInfo."&returnUrl=".$returnUrl."&notifyUrl=".$notifyurl."&extraData=".$extraData."&requestType=".$requestType;
         $signature = hash_hmac("sha256", $rawHash, $secretKey);
@@ -350,7 +378,7 @@ class CheckOutService
             'notifyUrl' => $notifyurl,
             'extraData' => $extraData,
             'requestType' => $requestType,
-            'signature' => $signature
+            'signature' => $signature,
         );
         $result = Http::acceptJson([
             'application/json'
@@ -359,10 +387,11 @@ class CheckOutService
         return redirect($jsonResult['payUrl']);
     }
 
-    public function getWeightOrder(){
+    public function getWeightOrder()
+    {
         $weightOrder = 0;
-        foreach(\Cart::getContent() as $product){
-            ($product->weight) ? $weightOrder += $product->weight*$product->quantity : $weightOrder += 200*$product->quantity;
+        foreach (\Cart::getContent() as $product) {
+            ($product->weight) ? $weightOrder += $product->weight * $product->quantity : $weightOrder += 200 * $product->quantity;
         }
         return $weightOrder;
     }

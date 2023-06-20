@@ -121,7 +121,7 @@ class OrderService
         $infomationUser['name'] = $infoUserOfOrder->user_name;
         $infomationUser['email'] = $infoUserOfOrder->user_email;
         $infomationUser['phone_number'] = $infoUserOfOrder->user_phone_number;
-        $infomationUser['apartment_number'] = $infoUserOfOrder->address_apartment_number;
+        $infomationUser['apartment_number'] = $order->apartment_number;
         $infomationUser['payment_name'] = $infoUserOfOrder->payment_name;
         $infomationUser['orders_transport_fee'] = $infoUserOfOrder->orders_transport_fee;
         $response = Http::withHeaders([
@@ -129,18 +129,18 @@ class OrderService
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/province');
         $data = json_decode($response->body(), true);
         foreach ($data['data'] as $item) {
-            if ($infoUserOfOrder->address_city == $item['ProvinceID']) {
+            if ($order->city == $item['ProvinceID']) {
                 $infomationUser['city'] = $item['NameExtension'][1];
             }
         }
         $response = Http::withHeaders([
             'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/district', [
-            'province_id' => $infoUserOfOrder->address_city,
+            'province_id' => $order->city,
         ]);
         $data = json_decode($response->body(), true);
         foreach ($data['data'] as $item) {
-            if ($infoUserOfOrder->address_district == $item['DistrictID']) {
+            if ($order->district == $item['DistrictID']) {
                 $infomationUser['district'] = $item['DistrictName'];
             }
         }
@@ -148,11 +148,11 @@ class OrderService
         $response = Http::withHeaders([
             'token' => '24d5b95c-7cde-11ed-be76-3233f989b8f3'
         ])->get('https://online-gateway.ghn.vn/shiip/public-api/master-data/ward', [
-            'district_id' => $infoUserOfOrder->address_district,
+            'district_id' => $order->district,
         ]);
         $data = json_decode($response->body(), true);
         foreach ($data['data'] as $item) {
-            if ($infoUserOfOrder->address_ward == $item['WardCode']) {
+            if ($order->ward == $item['WardCode']) {
                 $infomationUser['ward'] = $item['NameExtension'][0];
             }
         }
