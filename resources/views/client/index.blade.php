@@ -25,6 +25,16 @@
                         <p>Chào mừng đến với shop thời trang của chúng tôi - nơi cung cấp các sản phẩm đa dạng và chất lượng cao. Đến với chúng tôi để tìm kiếm phong cách của bạn!</p>
                         <p>Phong cách của bạn là niềm đam mê của chúng tôi - Hãy để chúng tôi giúp bạn thể hiện nó</p>
                     </div>
+                    <div class="flat-image formBottom delay200" data-bottom="true"><img src="{{ asset('asset/client/images/slider-image-02.png') }}" alt=""></div>
+                </li>
+                <li>
+                    <div class="flat-caption caption2 formLeft delay400 text-center">
+                        <h1>VH CLOTHINGS</h1>
+                    </div>
+                    <div class="flat-caption caption3 formLeft delay500 text-center">
+                        <p>Chào mừng đến với shop thời trang của chúng tôi - nơi cung cấp các sản phẩm đa dạng và chất lượng cao. Đến với chúng tôi để tìm kiếm phong cách của bạn!</p>
+                        <p>Phong cách của bạn là niềm đam mê của chúng tôi - Hãy để chúng tôi giúp bạn thể hiện nó</p>
+                    </div>
                     <div class="flat-image formBottom delay200" data-bottom="true"><img src="{{ asset('asset/client/images/slider-image-03.png') }}" alt=""></div>
                 </li>
             </ul>
