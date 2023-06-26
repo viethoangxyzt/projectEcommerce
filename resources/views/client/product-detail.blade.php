@@ -85,8 +85,7 @@
                   </div>
                   <div class="col-md-3 wided-box">
                     Kích thước &nbsp;&nbsp;: 
-                    <select id="data-size" data-sizes="{{ json_encode($productSize) }}" name="id">
-                      
+                    <select id="data-size" data-sizes="{{ json_encode($productSize) }}" name="id">     
                     </select>
                   </div>
                   <div class="col-md-3 wided-box">
