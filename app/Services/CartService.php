@@ -54,6 +54,7 @@ class CartService
                 'image' => $product->product_img,
                 'size' => $product->size_name,
                 'color' => $product->color_name,
+                // 'product_size_quantity' => $product->products_size_quantity,
             )
         ]);
 

@@ -20,7 +20,7 @@ return new class extends Migration
                     declare _quantity int;
                     select quantity into _quantity from products_size where id = new.product_size_id;
                     if (new.quantity <= 0 || _quantity < new.quantity) then
-                        SIGNAL sqlstate "45001" set message_text = "error";
+                        SIGNAL sqlstate "45002" set message_text = "Code ngu vkl";
                     else
                         update products_size set quantity = _quantity - new.quantity where id = new.product_size_id;
                     end if;
