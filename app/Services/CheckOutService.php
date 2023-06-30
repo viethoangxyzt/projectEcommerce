@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\CheckOutRequest;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Payment;
 use App\Models\ProductSize;
 use App\Models\TemporaryAddress;
@@ -95,7 +96,6 @@ class CheckOutService
 
     public function store(CheckOutRequest $request)
     {
-
         try {
             //get service id
             $fromDistrict = "1542";
@@ -128,7 +128,7 @@ class CheckOutService
             ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', $dataGetFee);
             $fee = $response['data']['total'];
             //data order
-
+            
             $dataOrder = [
                 'id' => time() . mt_rand(111, 999),
                 'payment_id' => $request->payment_method,
@@ -145,7 +145,6 @@ class CheckOutService
             DB::beginTransaction();
             // create order
             $order = $this->orderRepository->create($dataOrder);
-
             // create order detail
             foreach (\Cart::getContent() as $product) {
                 // data order detail
@@ -164,10 +163,12 @@ class CheckOutService
             return redirect()->route('order_history.index');
         } catch (Exception $e) {
             Log::error($e);
+            dd($e);
             DB::rollBack();
             // check quantity product
             foreach (\Cart::getContent() as $product) {
-                $productSize = ProductSize::where('id', $product->id)->first();
+                $productSize = ProductSize::find($product->id);
+                dd($productSize->quantity);
                 if ($productSize->quantity < $product->quantity) {
                     \Cart::update(
                         $product->id,
@@ -273,7 +274,7 @@ class CheckOutService
                     'product_size_id' => $product->id,
                     'unit_price' => $product->price,
                     'quantity' => $product->quantity,
-                ];
+                ];           
                 $this->orderDetailRepository->create($orderDetail);
             }
             DB::commit();

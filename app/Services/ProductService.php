@@ -219,7 +219,6 @@ class ProductService
 
     public function store(StoreProductRequest $request)
     {
-        
         try {
             $data = $request->validated();
             $imageName = time().'.'.request()->img->getClientOriginalExtension();

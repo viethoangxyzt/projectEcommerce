@@ -23,7 +23,7 @@ return new class extends Migration
                 if (_record >= 2) then
                     select sum(quantity) into _quantity from order_details where product_size_id = new.product_size_id and order_id = new.order_id;
                     update order_details set quantity = _quantity where product_size_id = new.product_size_id and order_id = new.order_id;
-                    SIGNAL sqlstate "45001" set message_text = "error";
+                    SIGNAL sqlstate "45001" set message_text = "Lỗi vkl bạn ơi";
                 end if;
             END
         ');
