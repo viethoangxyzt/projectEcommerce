@@ -40,6 +40,7 @@ class Order extends Model
         'district',
         'ward',
         'apartment_number',
+        'phone_number'
     ];
 
     const STATUS_ORDER = [

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('apartment_number');
             $table->double('transport_fee');
             $table->timestamps();
+            $table->string('phone_number');
         });
     }
 

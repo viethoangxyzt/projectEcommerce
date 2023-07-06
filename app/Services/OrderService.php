@@ -120,7 +120,7 @@ class OrderService
         $infomationUser['id'] = $infoUserOfOrder->user_id;
         $infomationUser['name'] = $infoUserOfOrder->user_name;
         $infomationUser['email'] = $infoUserOfOrder->user_email;
-        $infomationUser['phone_number'] = $infoUserOfOrder->user_phone_number;
+        $infomationUser['phone_number'] = $order->phone_number;
         $infomationUser['apartment_number'] = $order->apartment_number;
         $infomationUser['payment_name'] = $infoUserOfOrder->payment_name;
         $infomationUser['orders_transport_fee'] = $infoUserOfOrder->orders_transport_fee;

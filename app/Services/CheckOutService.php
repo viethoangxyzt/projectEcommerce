@@ -140,7 +140,8 @@ class CheckOutService
                 'city' => $request->city,
                 'district' => $request->district,
                 'ward' => $request->ward,
-                'apartment_number' => $request->apartment_number
+                'apartment_number' => $request->apartment_number,
+                'phone_number' => $request->phone_number
             ];
             DB::beginTransaction();
             // create order
@@ -194,7 +195,8 @@ class CheckOutService
             'district' => $request->district,
             'ward' => $request->ward,
             'apartment_number' => $request->apartment_number,
-            'transport_fee' => $this->getTransportFee($request)
+            'transport_fee' => $this->getTransportFee($request),
+            'phone_number' => $request->phone_number
         ];
         TemporaryAddress::create($dataTemporaryAddress);
         return $this->payWithMoMo(time() . mt_rand(111, 999) . "", \Cart::getTotal() + $this->getTransportFee($request) . "", route('checkout.callback_momo'), route('cart.index'));
@@ -261,6 +263,7 @@ class CheckOutService
                 'district' => $temporaryAddress->district,
                 'ward' => $temporaryAddress->ward,
                 'apartment_number' => $temporaryAddress->apartment_number,
+                'phone_number' => $temporaryAddress->phone_number
             ];
             DB::beginTransaction();
             // create order
