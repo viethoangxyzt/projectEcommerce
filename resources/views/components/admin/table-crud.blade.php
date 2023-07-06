@@ -16,11 +16,11 @@
                     <button class="btn btn-success ml-1">Excel</button>
                 @endif
             </div>
-            <div class="col-6 text-right">
+            <!-- <div class="col-6 text-right">
                 @if ($actions['deleteAll'])
                     <button class="btn btn-danger">Xóa Tất Cả</button>
                 @endif
-            </div>
+            </div> -->
         </div>
         </div>
     @endif

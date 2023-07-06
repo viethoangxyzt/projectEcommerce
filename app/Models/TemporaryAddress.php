@@ -28,6 +28,7 @@ class TemporaryAddress extends Model
         'district',
         'ward',
         'apartment_number',
-        'transport_fee'
+        'transport_fee',
+        'phone_number'
     ];
 }

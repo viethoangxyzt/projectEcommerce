@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('ward');
             $table->string('apartment_number');
+            $table->string('phone_number');
         });
     }
 
