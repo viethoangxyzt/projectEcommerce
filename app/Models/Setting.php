@@ -33,5 +33,8 @@ class Setting extends Model
         'maintenance',
         'notification',
         'introduction',
+        'facebook',
+        'youtube',
+        'telegram',
     ];
 }

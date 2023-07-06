@@ -45,7 +45,8 @@ class ChangePasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'confirm_password.same' => 'Xác nhận mật khẩu không trùng khớp'
+            'confirm_password.same' => 'Xác nhận mật khẩu không trùng khớp',
+            'new_password.regex' => 'Mật khẩu mới phải có ít nhất 1 chữ cái thường, 1 chữ cái in hoa và 1 kí tự đặc biệt.'
         ];
     }
 
@@ -58,7 +59,7 @@ class ChangePasswordRequest extends FormRequest
     public function withValidator(Validator $validator)
     {
         $validator->after(function ($validator) {
-            if ($this->matchCurrentPassword($this->current_password)) {
+            if ($this->matchCurrentPassword($this->current_password) && $this->current_password != null) {
                 $validator->errors()->add('current_password', 'Mật khẩu hiện tại không đúng');
             }
         });
@@ -74,4 +75,14 @@ class ChangePasswordRequest extends FormRequest
     {
         return !Hash::check($currentPassword, Auth::user()->password);
     }
+
+    public function attributes()
+    {
+        return [
+            'current_password' => 'mật khẩu hiện tại',
+            'new_password' => 'mật khẩu mới',
+            'confirm_password' => 'xác nhận mật khẩu',
+        ];
+    }
+
 }

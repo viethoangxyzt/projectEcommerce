@@ -60,6 +60,30 @@
                           value="{{ $setting->phone_number }}"
                           class="form-control">
                       </x-admin-input-prepend>
+                      <x-admin-input-prepend label="Link facebook" width="120px">
+                        <input 
+                          id="facebook"
+                          type="text" 
+                          name="facebook"
+                          value="{{ $setting->facebook }}"
+                          class="form-control">
+                      </x-admin-input-prepend>
+                      <x-admin-input-prepend label="Link youtube" width="120px">
+                        <input 
+                          id="youtube"
+                          type="text" 
+                          name="youtube"
+                          value="{{ $setting->youtube }}"
+                          class="form-control">
+                      </x-admin-input-prepend>
+                      <x-admin-input-prepend label="Link telegram" width="120px">
+                        <input 
+                          id="telegram"
+                          type="text" 
+                          name="telegram"
+                          value="{{ $setting->telegram }}"
+                          class="form-control">
+                      </x-admin-input-prepend>
                       <x-admin-input-prepend label="Bảo trì website" width="120px">
                         <select class="form-control" name="maintenance" id="maintenance">
                           <option value="1"
