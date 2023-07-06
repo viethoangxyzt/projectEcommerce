@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword1">Email</label>
-                      <input type="text" class="form-control" value="{{ $email }}" id="email" name="email" placeholder="Nhập địa chỉ email">
+                      <input type="text" class="form-control" value="{{ $email }}" id="email" name="email" placeholder="Nhập địa chỉ email" disabled>
                       @if ($errors->get('email'))
                         <span id="email-error" class="error invalid-feedback" style="display: block">
                           {{ implode(", ",$errors->get('email')) }}

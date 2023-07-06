@@ -19,6 +19,9 @@ return new class extends Migration
             $table->char('name', 100);
             $table->char('email', 100);
             $table->char('address', 255);
+            $table->char('facebook', 255)->nullable();
+            $table->char('youtube', 255)->nullable();
+            $table->char('telegram', 255)->nullable();
             $table->char('phone_number', 20);
             $table->integer('maintenance');
             $table->text('notification');

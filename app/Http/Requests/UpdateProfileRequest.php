@@ -49,7 +49,7 @@ class UpdateProfileRequest extends FormRequest
             'name.min' => __('message.min', ['attribute' => 'Họ và tên']),
             'phone_number.required' => __('message.required', ['attribute' => 'số điện thoại']),
             'phone_number.min' => __('message.min', ['attribute' => 'số điện thoại']),
-            'phone_number.max' => __('message.min_max_length', ['attribute' => 'số điện thoại']),
+            'phone_number.max' => __('message.max', ['attribute' => 'số điện thoại']),
             'city.required' => __('message.required', ['attribute' => 'tỉnh, thành phố']),
             'district.required' => __('message.required', ['attribute' => 'quận, huyện']),
             'ward.required' => __('message.required', ['attribute' => 'phường, xã']),

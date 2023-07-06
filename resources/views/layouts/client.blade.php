@@ -51,10 +51,10 @@
                      <div class="row">
                         <div class="col-md-6">
                            <ul class="topmenu">
-                              <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-                              <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                              <li><a href="{{ setting_website()->facebook }}"><i class="fab fa-facebook"></i></a></li>
+                              <li><a href="{{ setting_website()->youtube }}"><i class="fab fa-youtube"></i></a></li>
                               <li><a href="#"><i class="fab fa-instagram-square"></i></a></li>
-                              <li><a href="#"><i class="fab fa-telegram-plane"></i></a></li>
+                              <li><a href="{{ setting_website()->telegram }}"><i class="fab fa-telegram-plane"></i></a></li>
                               <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                            </ul>
                         </div>
