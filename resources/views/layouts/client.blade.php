@@ -127,32 +127,24 @@
          <div class="footer-info">
             <div class="container">
                <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                      <div class="footer-logo">
                         <a href="{{ route('user.home') }}">
                            <img src="{{ asset("asset/client/images/" . setting_website()->logo) }}" alt="">
                         </a>
                      </div>
                   </div>
-                  <div class="col-md-3 col-sm-6">
+                  <div class="col-md-4 col-sm-6">
                      <h4 class="title">Thông tin liên hệ</h4>
                      <p>{{ setting_website()->address }}</p>
                      <p>Số điện thoại : {{ setting_website()->phone_number }}</p>
                      <p>Email : {{ setting_website()->email }}</p>
                   </div>
-                  <div class="col-md-3 col-sm-6">
+                  <div class="col-md-4 col-sm-6">
                      <h4 class="title">Về chúng tôi</h4>
                      <p>
                         Chuyên bán thời trang an toàn. Tin cậy nhanh chóng. Chăm sóc khách hàng 24/24
                      </p>
-                  </div>
-                  <div class="col-md-3">
-                     <h4 class="title">Nhận thông tin từ chúng tôi</h4>
-                     <p>Cảm ơn rất nhiều</p>
-                     <form class="newsletter">
-                        <input type="text" name="" placeholder="Email của bạn">
-                        <input type="submit" value="Gửi" class="button">
-                     </form>
                   </div>
                </div>
             </div>
