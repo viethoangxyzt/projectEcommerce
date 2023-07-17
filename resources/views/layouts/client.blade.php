@@ -51,11 +51,12 @@
                      <div class="row">
                         <div class="col-md-6">
                            <ul class="topmenu">
-                              <li><a href="{{ setting_website()->facebook }}"><i class="fab fa-facebook"></i></a></li>
-                              <li><a href="{{ setting_website()->youtube }}"><i class="fab fa-youtube"></i></a></li>
-                              <li><a href="#"><i class="fab fa-instagram-square"></i></a></li>
-                              <li><a href="{{ setting_website()->telegram }}"><i class="fab fa-telegram-plane"></i></a></li>
-                              <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                              <li class="dropdown {{ (request()->is('introduction*')) ? 'active' : '' }}">
+                                 <a href="{{ route('user.introduction') }}">Giới Thiệu</a>
+                              </li>
+                              <li><a href="{{ setting_website()->facebook }}">facebook <i class="fab fa-facebook"></i></a></li>
+                              <li><a href="{{ setting_website()->youtube }}">youtube <i class="fab fa-youtube"></i></a></li>
+                              <li><a href="{{ setting_website()->telegram }}">telegram<i class="fab fa-telegram-plane"></i></a></li>
                            </ul>
                         </div>
                         <div class="col-md-6">
@@ -111,9 +112,6 @@
                               <a href="{{ route('user.products', $category->slug) }}">{{ $category->name }}</a>
                            </li>
                            @endforeach
-                           <li class="dropdown {{ (request()->is('introduction*')) ? 'active' : '' }}">
-                              <a href="{{ route('user.introduction') }}">Giới Thiệu</a>
-                           </li>
                         </ul>
                      </div>
                   </div>

@@ -131,7 +131,7 @@
                                         </div>
                                         <div class="button_group">
                                             <a href="{{ route('user.products_detail', $product->id) }}" class="button add-cart" type="button">Xem Chi Tiết</a>
-                                        </div>
+                                        </div>    
                                     </div>
                                 </div>
                             @endforeach
